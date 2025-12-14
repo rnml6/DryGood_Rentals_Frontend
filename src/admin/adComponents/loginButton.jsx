@@ -12,19 +12,19 @@ function LoginButton () {
   const location = useLocation()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
 
-    if (!location.pathname.startsWith('/admin') && token) {
-      localStorage.removeItem('token')
-      navigate('/')
+    if (!location.pathname.startsWith("/admin") && token) {
+      localStorage.removeItem("token");
+      navigate("/");
     }
-  }, [location.pathname, navigate])
+  }, [location.pathname, navigate]);
 
   useEffect(() => {
-    if (!error) return
-    const timer = setTimeout(() => setError(''), 1000)
-    return () => clearTimeout(timer)
-  }, [error])
+    if (!error) return;
+    const timer = setTimeout(() => setError(""), 1000);
+    return () => clearTimeout(timer);
+  }, [error]);
 
   const handleOpenLogin = () => {
     setClickCount(prev => {
