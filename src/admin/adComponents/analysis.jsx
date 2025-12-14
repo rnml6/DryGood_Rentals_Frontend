@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import GenerateReport from "../adComponents/generateReport.jsx";
 
+
 const formatCurrency = (value) =>
   `₱${Number(value)
     .toFixed(2)
@@ -133,24 +134,38 @@ function Analysis() {
   return (
     <div className="bg-gray-100 min-h-screen p-5 md:p-8 lg:p-12 font-sans">
       <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5 max-md:gap-2">
+        <div className="md:col-span-2 bg-[#1C3D5A] pl-7 p-6 rounded-xl shadow-2xl flex flex-col justify-center items-start text-white transition-transform duration-300 hover:scale-[1.01]">
+          <h2 className="text-xl font-light opacity-80">
+            Total Revenue ( ₱ ) {year !== "all" ? `for ${year}` : ""}
+          </h2>
+          <span className="text-4xl font-extrabold tracking-wide">
+            {formatCurrency(totalRevenue)}
+          </span>
+        </div>
+
         <div className="flex items-center flex-row md:flex-col justify-between gap-3 max-md:gap-2">
+          <div className="flex items-center gap-3 w-1/2 md:w-full">
+            <div className="flex-grow max-md:px-3 max-md:py-2.5 max-md:rounded-lg px-4 py-4 w-full font-semibold rounded-xl text-gray-100 border bg-[#1C3D5A] border-[#1C3D5A]">
+              <select
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                className="w-full focus:outline-none focus:ring-0 bg-[#1C3D5A] cursor-pointer"
+              >
+                <option value="all" className="bg-white text-gray-800">
+                  All Years
+                </option>
+                {years.map((y) => (
+                  <option key={y} value={y} className="bg-white text-gray-800">
+                    {y}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div className="w-1/2 md:w-full">
             <GenerateReport />
           </div>
-        </div>
-      </section>
-
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-        <div className="bg-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-xl font-semibold mb-6 text-[#1C3D5A]">
-            Monthly Rentals {year !== "all" ? `in ${year}` : ""}
-          </h2>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-xl font-semibold mb-6 text-[#1C3D5A]">
-            Monthly Revenue {year !== "all" ? `in ${year}` : ""}
-          </h2>
         </div>
       </section>
 
