@@ -6,7 +6,6 @@ function LoginButton() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,8 +15,6 @@ function LoginButton() {
     const timer = setTimeout(() => setError(""), 1000);
     return () => clearTimeout(timer);
   }, [error]);
-
-
 
   const handleLogin = async () => {
     setError("");
@@ -44,19 +41,7 @@ function LoginButton() {
         Login ({clickCount}/10)
       </button>
 
-
-
-
-
-
-
       {showLogin && (
-
-
-
-
-
-gi
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-4">
           {error && (
             <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 z-50 p-3 rounded-lg shadow-lg animate-pulse">
