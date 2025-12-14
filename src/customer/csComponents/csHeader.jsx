@@ -56,32 +56,6 @@ function CsHeader() {
         </h1>
       </div>
 
-      <div className="hidden md:flex items-center gap-6">
-        <LoginButton />
-        <nav className="flex items-center gap-4">
-          <NavLink
-            to="/"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            HOME
-          </NavLink>
-
-          <NavLink
-            to="/product"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            PRODUCTS
-          </NavLink>
-        </nav>
-      </div>
-
-      <div className="flex items-center md:hidden z-20">
-        <LoginButton className="mr-2" />
-        <button onClick={toggleMenu} aria-label="Toggle navigation menu">
-          {!isMenuOpen && <MenuIcon />}
-        </button>
-      </div>
-
       {isMenuOpen && (
         <>
           <div
