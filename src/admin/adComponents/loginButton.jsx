@@ -12,6 +12,15 @@ function LoginButton() {
   const location = useLocation();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!location.pathname.startsWith("/admin") && token) {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
+  }, [location.pathname, navigate]);
+
+  useEffect(() => {
     if (!error) return;
     const timer = setTimeout(() => setError(""), 1000);
     return () => clearTimeout(timer);
