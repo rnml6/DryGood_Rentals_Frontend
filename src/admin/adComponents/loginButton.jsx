@@ -17,9 +17,21 @@ function LoginButton() {
     return () => clearTimeout(timer);
   }, [error]);
 
+  const handleLogin = async () => {
+    setError("");
 
+    try {
+      const res = await fetch("http://localhost:4000/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
- 
+      const data = await res.json();
+    } catch (err) {
+      setError("Server error. Please try again.");
+    }
+  };
 
   return (
     <div>
@@ -32,8 +44,6 @@ function LoginButton() {
 
       {showLogin && (
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-4">
-          
-
           <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm">
             <h2 className="text-2xl font-extrabold font-serif tracking-wide uppercase text-center mb-6 text-[#1C3D5A]">
               Admin Access
