@@ -50,12 +50,38 @@ function CsHeader() {
 
   return (
     <div className="w-full px-5.5 sm:px-8 lg:px-16 py-4 md:py-6 md:pt-8 flex items-center justify-between relative">
+      {/* Logo */}
       <div className="flex items-center z-20">
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold tracking-wider text-white drop-shadow-md">
           DRY GOOD RENTALS
         </h1>
       </div>
 
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex items-center gap-6">
+        <LoginButton />
+        <nav className="flex items-center gap-4">
+          <NavLink to="/" className={({ isActive }) => getNavLinkClass(isActive)}>
+            HOME
+          </NavLink>
+
+          <NavLink
+            to="/product"
+            className={({ isActive }) => getNavLinkClass(isActive)}
+          >
+            PRODUCTS
+          </NavLink>
+        </nav>
+      </div>
+
+      {/* Mobile Menu Button */}
+      <div className="md:hidden z-20">
+        <button onClick={toggleMenu} aria-label="Open navigation menu">
+          <MenuIcon />
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <>
           <div
