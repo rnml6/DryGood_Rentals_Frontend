@@ -16,6 +16,22 @@ function LoginButton() {
     return () => clearTimeout(timer);
   }, [error]);
 
+  const handleLogin = async () => {
+    setError("");
+
+    try {
+      const res = await fetch("http://localhost:4000/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+    } catch (err) {
+      setError("Server error. Please try again.");
+    }
+  };
+
   return (
     <div>
       <button
