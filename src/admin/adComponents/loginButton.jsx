@@ -6,38 +6,15 @@ function LoginButton() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [clickCount, setClickCount] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!location.pathname.startsWith("/admin") && token) {
-      localStorage.removeItem("token");
-      navigate("/");
-    }
-  }, [location.pathname, navigate]);
 
   useEffect(() => {
     if (!error) return;
     const timer = setTimeout(() => setError(""), 1000);
     return () => clearTimeout(timer);
   }, [error]);
-
-  const handleOpenLogin = () => {
-    setClickCount((prev) => {
-      const newCount = prev + 1;
-
-      if (newCount >= 10) {
-        setShowLogin(true);
-        return 0;
-      }
-
-      return newCount;
-    });
-  };
 
   const handleLogin = async () => {
     setError("");
