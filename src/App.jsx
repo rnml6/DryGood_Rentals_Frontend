@@ -1,27 +1,26 @@
-import './App.css'
-import CsMainpage from './customer/csMainpage'
-import CustomerHomepage from './customer/csPages/csHomepage'
-import CustomerProductPage from './customer/csPages/csProductPage'
-import { createBrowserRouter } from 'react-router-dom'
+import "./App.css";
+import CsMainpage from "./customer/csMainpage";
+import CustomerHomepage from "./customer/csPages/csHomepage";
+import CustomerProductPage from "./customer/csPages/csProductPage";
+import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <CsMainpage />,
     children: [
       { index: true, element: <CustomerHomepage /> },
-      { path: 'product', element: <CustomerProductPage /> }
-    ]
-  },{
-    path: '/admin',
+      { path: "product", element: <CustomerProductPage /> },
+    ],
+  },
+  {
+    path: "/admin",
     element: (
       <ProtectedRoute>
         <AdminPage />
       </ProtectedRoute>
-    )
-  }
+    ),
+  },
+]);
 
-])
-
-git 
-export default App
+export default App;
