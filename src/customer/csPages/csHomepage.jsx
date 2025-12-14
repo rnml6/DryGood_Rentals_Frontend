@@ -259,6 +259,66 @@ function CsHomepage() {
           )}
         </div>
       </section>
+
+      <section className='bg-[#F3F4F6] py-10 sm:py-20 px-4'>
+        <div className='max-w-7xl mx-auto text-center'>
+          <h2 className='text-3xl md:text-4xl font-bold mb-4 text-[#1C3D5A]'>
+            Our Business Details
+          </h2>
+          <div className='w-16 h-1 bg-[#60A5FA] mx-auto mb-6' />
+
+          <div className='grid grid-cols-1 gap-5 mb-0 md:grid-cols-2 lg:grid-cols-3 md:gap-8'>
+            <div className='bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]'>
+              <ClockIcon />
+              <h3 className='text-xl font-semibold mb-4 text-[#1C3D5A]'>
+                Operating Hours
+              </h3>
+              <p className='text-gray-700'>Open from **8:00 AM to 5:00 PM**</p>
+              <p className='text-gray-700 font-medium'>
+                *Monday to Saturday*
+              </p>
+            </div>
+
+            <div className='bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]'>
+              <MapPinIcon />
+              <h3 className='text-xl font-semibold mb-4 text-[#1C3D5A]'>
+                Location
+              </h3>
+              <p className='text-gray-700 font-medium'>
+                *Calaca City, Batangas*
+              </p>
+              <p className='text-gray-700'>Philippines</p>
+            </div>
+
+            <div className='bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]'>
+              <MailIcon />
+              <h3 className='text-xl font-semibold mb-4 text-[#1C3D5A]'>
+                Contact Us
+              </h3>
+              <p className='mb-2'>
+                Email:{' '}
+                <a
+                  href='mailto:drygoodrentals@gmail.com'
+                  className='text-[#60A5FA] hover:underline font-medium'
+                >
+                  drygoodrentals@gmail.com
+                </a>
+              </p>
+              <p>
+                Phone:{' '}
+                <a className='text-[#60A5FA] hover:underline font-medium'>
+                  09673491452
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <p className='mx-auto italic text-gray-600 text-base sm:text-lg max-w-2xl mt-6 border-t pt-5 md:mt-9'>
+            We provide the best quality rental attire for all your professional
+            needs. Book with us today!
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
