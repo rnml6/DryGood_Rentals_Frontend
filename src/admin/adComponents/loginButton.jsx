@@ -43,6 +43,12 @@ function LoginButton() {
 
       {showLogin && (
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-4">
+          {error && (
+            <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 z-50 p-3 rounded-lg shadow-lg animate-pulse">
+              <p className="text-red-700 font-semibold">{error}</p>
+            </div>
+          )}
+
           <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm">
             <h2 className="text-2xl font-extrabold font-serif tracking-wide uppercase text-center mb-6 text-[#1C3D5A]">
               Admin Access
