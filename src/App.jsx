@@ -12,7 +12,14 @@ const router = createBrowserRouter([
       { index: true, element: <CustomerHomepage /> },
       { path: 'product', element: <CustomerProductPage /> }
     ]
-  },
+  },{
+    path: '/admin',
+    element: (
+      <ProtectedRoute>
+        <AdminPage />
+      </ProtectedRoute>
+    )
+  }
 
 ])
 
