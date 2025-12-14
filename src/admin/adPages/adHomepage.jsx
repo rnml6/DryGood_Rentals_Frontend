@@ -1,12 +1,12 @@
-import React from 'react'
-import Analysis from '../adComponents/analysis.jsx'
+import React from "react";
+import Analysis from "../adComponents/analysis.jsx";
 
-function adHomepage () {
+function adHomepage() {
   return (
     <div>
       <Analysis />
     </div>
-  )
+  );
 }
 
-export default adHomepage
+export default adHomepage;
