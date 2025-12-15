@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const MenuIcon = () => (
   <svg
@@ -55,7 +55,6 @@ function AdHeader() {
         </h1>
       </div>
 
-      {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-6">
         <nav className="flex items-center gap-4">
           <NavLink
@@ -82,14 +81,12 @@ function AdHeader() {
         </nav>
       </div>
 
-      {/* Mobile Menu Button */}
       <div className="flex items-center md:hidden z-20">
         <button onClick={toggleMenu} aria-label="Toggle navigation menu">
           {!isMenuOpen && <MenuIcon />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
         <>
           <div

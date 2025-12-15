@@ -79,15 +79,17 @@ const AttireCarousel = ({ images }) => {
   );
 
   const translateX = useMemo(() => {
-    if (totalImages <= imagesPerPage) return 0;
+    if (totalImages === 0 || totalImages <= imagesPerPage) {
+      return 0;
+    }
 
     const lastPageIndex = totalPages - 1;
     if (currentPage < lastPageIndex) {
       return -currentPage * imagesPerPage * fullItemWidth;
+    } else {
+      const firstItemIndexOnLastPage = Math.max(0, totalImages - imagesPerPage);
+      return -firstItemIndexOnLastPage * fullItemWidth;
     }
-
-    const firstItemIndexOnLastPage = Math.max(0, totalImages - imagesPerPage);
-    return -firstItemIndexOnLastPage * fullItemWidth;
   }, [currentPage, totalImages, imagesPerPage, fullItemWidth, totalPages]);
 
   const goToPage = useCallback((index) => {
@@ -107,7 +109,7 @@ const AttireCarousel = ({ images }) => {
   if (totalImages === 0) {
     return (
       <div className="relative w-full py-8">
-        <div className="w-full max-w-7xl mx-auto overflow-hidden h-[360px] flex items-center justify-center bg-gray-50 rounded-lg shadow-inner">
+        <div className="w-full max-w-7xl mx-auto relative overflow-hidden h-[360px] flex items-center justify-center bg-gray-50 rounded-lg shadow-inner">
           <p className="text-gray-500 font-semibold">
             No images available in the collection.
           </p>
@@ -118,7 +120,7 @@ const AttireCarousel = ({ images }) => {
 
   return (
     <div className="relative w-full">
-      <div className="max-w-7xl mx-auto overflow-hidden">
+      <div className="max-w-7xl mx-auto relative overflow-hidden">
         <div
           className="flex transition-transform ease-in-out"
           style={{
@@ -131,7 +133,10 @@ const AttireCarousel = ({ images }) => {
             <div
               key={index}
               className="group flex-shrink-0 mx-4 transition transform hover:scale-[1.03] duration-500 ease-out shadow-xl hover:shadow-2xl rounded-xl overflow-hidden"
-              style={{ width: `${itemWidth}px`, height: "320px" }}
+              style={{
+                width: `${itemWidth}px`,
+                height: "320px",
+              }}
             >
               <div className="relative w-full h-full">
                 <img
@@ -140,7 +145,7 @@ const AttireCarousel = ({ images }) => {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-opacity duration-500 opacity-80 group-hover:opacity-100" />
               </div>
             </div>
           ))}
@@ -152,12 +157,12 @@ const AttireCarousel = ({ images }) => {
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
-              onClick={() => goToPage(index)}
-              className={`w-4 h-4 rounded-full transition transform hover:scale-110 duration-300 ${
+              className={`w-4 h-4 rounded-full transition-colors transform hover:scale-110 duration-300 ${
                 index === currentPage
                   ? "bg-[#1C3D5A] shadow-md"
                   : "bg-gray-400/50 hover:bg-gray-500"
               }`}
+              onClick={() => goToPage(index)}
               aria-label={`Go to carousel page ${index + 1}`}
             />
           ))}
@@ -190,11 +195,9 @@ function CsHomepage() {
         const inventoryData = data.message || [];
 
         setInventory(inventoryData);
-
         const images = inventoryData
           .filter((item) => item.image)
           .map((item) => `${API_BASE_URL}/uploads/${item.image}`);
-
         setAttireImages(images);
       } catch (error) {
         console.error("Failed to fetch inventory:", error);
@@ -216,7 +219,7 @@ function CsHomepage() {
 
       <section className="relative h-screen flex items-center justify-center overflow-hidden text-center px-4 sm:px-8">
         <div
-          className="absolute inset-0 bg-cover bg-center brightness-60"
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 filter brightness-60"
           style={{ backgroundImage: `url(${BgImage})` }}
           role="img"
           aria-label="Background image of a professional setting"
@@ -224,7 +227,7 @@ function CsHomepage() {
         <div className="absolute inset-0 bg-[#1C3D5A]/40" />
 
         <div className="relative z-10 max-w-4xl mx-auto text-white mt-10">
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-serif font-extrabold mb-4 drop-shadow-lg">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-serif font-extrabold mb-4 tracking-tight leading-tighter drop-shadow-lg">
             DRY GOOD RENTALS
           </h1>
           <p className="text-lg md:text-2xl mb-10 max-w-3xl mx-auto font-light drop-shadow-md">
@@ -232,7 +235,7 @@ function CsHomepage() {
             sharp, feel confident.
           </p>
           <NavLink to="/product">
-            <button className="bg-[#1C3D5A] text-white font-semibold py-4 px-8 md:px-12 rounded-lg shadow-2xl transition transform hover:scale-[1.02] duration-300 uppercase tracking-widest border hover:border-white">
+            <button className="bg-[#1C3D5A] text-white font-semibold py-4 px-8 md:px-12 rounded-lg shadow-2xl transition transform hover:scale-[1.02] duration-300 uppercase tracking-widest border border-transparent hover:border-white text-sm sm:text-base">
               Explore Products
             </button>
           </NavLink>
@@ -260,60 +263,60 @@ function CsHomepage() {
         </div>
       </section>
 
-      <section className='bg-[#F3F4F6] py-10 sm:py-20 px-4'>
-        <div className='max-w-7xl mx-auto text-center'>
-          <h2 className='text-3xl md:text-4xl font-bold mb-4 text-[#1C3D5A]'>
+      <section className="bg-[#F3F4F6] py-10 sm:py-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#1C3D5A]">
             Our Business Details
           </h2>
-          <div className='w-16 h-1 bg-[#60A5FA] mx-auto mb-6' />
+          <div className="w-16 h-1 bg-[#60A5FA] mx-auto mb-6" />
 
-          <div className='grid grid-cols-1 gap-5 mb-0 md:grid-cols-2 lg:grid-cols-3 md:gap-8'>
-            <div className='bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]'>
+          <div className="grid grid-cols-1 gap-5 mb-0 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
+            <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]">
               <ClockIcon />
-              <h3 className='text-xl font-semibold mb-4 text-[#1C3D5A]'>
+              <h3 className="text-xl font-semibold mb-4 text-[#1C3D5A]">
                 Operating Hours
               </h3>
-              <p className='text-gray-700'>Open from **8:00 AM to 5:00 PM**</p>
-              <p className='text-gray-700 font-medium'>
-                *Monday to Saturday*
+              <p className="text-gray-700">Open from **8:00 AM to 5:00 PM**</p>
+              <p className="text-gray-700 font-medium">
+                **Monday to Saturday**
               </p>
             </div>
 
-            <div className='bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]'>
+            <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]">
               <MapPinIcon />
-              <h3 className='text-xl font-semibold mb-4 text-[#1C3D5A]'>
+              <h3 className="text-xl font-semibold mb-4 text-[#1C3D5A]">
                 Location
               </h3>
-              <p className='text-gray-700 font-medium'>
-                *Calaca City, Batangas*
+              <p className="text-gray-700 font-medium">
+                **Calaca City, Batangas**
               </p>
-              <p className='text-gray-700'>Philippines</p>
+              <p className="text-gray-700">Philippines</p>
             </div>
 
-            <div className='bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]'>
+            <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-t-4 border-[#60A5FA]">
               <MailIcon />
-              <h3 className='text-xl font-semibold mb-4 text-[#1C3D5A]'>
+              <h3 className="text-xl font-semibold mb-4 text-[#1C3D5A]">
                 Contact Us
               </h3>
-              <p className='mb-2'>
-                Email:{' '}
+              <p className="mb-2">
+                Email:{" "}
                 <a
-                  href='mailto:drygoodrentals@gmail.com'
-                  className='text-[#60A5FA] hover:underline font-medium'
+                  href="mailto:drygoodrentals@gmail.com"
+                  className="text-[#60A5FA] hover:underline font-medium"
                 >
                   drygoodrentals@gmail.com
                 </a>
               </p>
               <p>
-                Phone:{' '}
-                <a className='text-[#60A5FA] hover:underline font-medium'>
+                Phone:{" "}
+                <a className="text-[#60A5FA] hover:underline font-medium">
                   09673491452
                 </a>
               </p>
             </div>
           </div>
 
-          <p className='mx-auto italic text-gray-600 text-base sm:text-lg max-w-2xl mt-6 border-t pt-5 md:mt-9'>
+          <p className="mx-auto italic text-gray-600 text-base sm:text-lg max-w-2xl mt-6 border-t pt-5 md:mt-9">
             We provide the best quality rental attire for all your professional
             needs. Book with us today!
           </p>
