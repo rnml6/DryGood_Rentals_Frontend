@@ -1,6 +1,5 @@
 import React from "react";
 import ShowInventory from "../adComponents/showInventory.jsx";
-
 function adInventory() {
   return (
     <div>
@@ -8,5 +7,4 @@ function adInventory() {
     </div>
   );
 }
-
 export default adInventory;
