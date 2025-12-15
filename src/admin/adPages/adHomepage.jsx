@@ -1,6 +1,5 @@
 import React from "react";
 import Analysis from "../adComponents/analysis.jsx";
-
 function adHomepage() {
   return (
     <div>
@@ -8,5 +7,4 @@ function adHomepage() {
     </div>
   );
 }
-
 export default adHomepage;
