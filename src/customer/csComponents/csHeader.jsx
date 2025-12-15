@@ -1,128 +1,127 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import LoginButton from "../../admin/adComponents/loginButton.jsx";
 
-function LoginButton() {
-  const [showLogin, setShowLogin] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [clickCount, setClickCount] = useState(0);
+const MenuIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-8 w-8 text-white"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 6h16M4 12h16M4 18h16"
+    />
+  </svg>
+);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+const CloseIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-8 w-8 text-white"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M6 18L18 6M6 6l12 12"
+    />
+  </svg>
+);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+const getNavLinkClass = (isActive) =>
+  isActive
+    ? "bg-white text-[#1C3D5A] font-bold text-[0.85rem] tracking-wider p-2 px-4 rounded-lg shadow-lg transition-all duration-300"
+    : "text-white text-[0.85rem] font-medium tracking-widest hover:scale-[1.02] hover:bg-white/10 p-2 px-4 rounded-lg transition-all duration-300";
 
-    if (!location.pathname.startsWith("/admin") && token) {
-      localStorage.removeItem("token");
-      navigate("/");
-    }
-  }, [location.pathname, navigate]);
+function CsHeader() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (!error) return;
-    const timer = setTimeout(() => setError(""), 1000);
-    return () => clearTimeout(timer);
-  }, [error]);
-
-  const handleOpenLogin = () => {
-    setClickCount((prev) => {
-      const newCount = prev + 1;
-
-      if (newCount >= 10) {
-        setShowLogin(true);
-        return 0;
-      }
-
-      return newCount;
-    });
-  };
-
-  const handleLogin = async () => {
-    setError("");
-
-    try {
-      const res = await fetch("http://localhost:4000/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        localStorage.setItem("token", data.token);
-        setShowLogin(false);
-        setEmail("");
-        setPassword("");
-        navigate("/admin");
-      } else {
-        setError(data.message);
-      }
-    } catch (err) {
-      setError("Server error. Please try again.");
-    }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <div>
-      <button
-        onClick={handleOpenLogin}
-        className="bg-[#1C3D5A] text-white px-4 py-2 rounded-lg font-medium tracking-widest hover:bg-[#1C3D5A]/90 transition-colors duration-200 opacity-0"
-      >
-        Login ({clickCount}/10)
-      </button>
+    <div className="w-full px-5.5 sm:px-8 lg:px-16 py-4 md:py-6 md:pt-8 flex items-center justify-between relative">
+      <div className="flex items-center z-20">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold tracking-wider text-white drop-shadow-md">
+          DRY GOOD RENTALS
+        </h1>
+      </div>
 
-      {showLogin && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-4">
-          {error && (
-            <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 z-50 p-3 rounded-lg shadow-lg animate-pulse">
-              <p className="text-red-700 font-semibold">{error}</p>
-            </div>
-          )}
+      <div className="hidden md:flex items-center gap-6">
+        <LoginButton />
+        <nav className="flex items-center gap-4">
+          <NavLink
+            to="/"
+            className={({ isActive }) => getNavLinkClass(isActive)}
+          >
+            HOME
+          </NavLink>
 
-          <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm">
-            <h2 className="text-2xl font-extrabold font-serif tracking-wide uppercase text-center mb-6 text-[#1C3D5A]">
-              Admin Access
-            </h2>
+          <NavLink
+            to="/product"
+            className={({ isActive }) => getNavLinkClass(isActive)}
+          >
+            PRODUCTS
+          </NavLink>
+        </nav>
+      </div>
 
-            <input
-              type="email"
-              placeholder="Email"
-              className="border border-gray-300 p-3 w-full mb-4 rounded-lg focus:outline-none focus:border-[#1C3D5A] focus:ring-1 focus:ring-[#1C3D5A] text-[#1C3D5A]"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+      <div className="flex items-center md:hidden z-20">
+        <LoginButton className="mr-2" />
+        <button onClick={toggleMenu} aria-label="Toggle navigation menu">
+          {!isMenuOpen && <MenuIcon />}
+        </button>
+      </div>
 
-            <input
-              type="password"
-              placeholder="Password"
-              className="border border-gray-300 p-3 w-full mb-6 rounded-lg focus:outline-none focus:border-[#1C3D5A] focus:ring-1 focus:ring-[#1C3D5A] text-[#1C3D5A]"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+      {isMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/50 z-[90] md:hidden"
+            onClick={toggleMenu}
+          />
 
-            <div className="flex justify-between mt-1 gap-4">
-              <button
-                onClick={() => setShowLogin(false)}
-                className="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg w-full font-medium hover:bg-gray-400 transition-colors duration-200"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={handleLogin}
-                className="bg-[#1C3D5A] text-white px-5 py-2 rounded-lg  w-full font-medium tracking-wide hover:bg-[#1C3D5A]/90 transition-colors duration-200"
-              >
-                Sign In
+          <div className="fixed top-0 right-0 w-64 h-screen bg-[#1C3D5A] z-[100] p-6 flex flex-col items-center pt-24 space-y-8 md:hidden shadow-xl">
+            <div className="absolute top-4 right-4">
+              <button onClick={toggleMenu} aria-label="Close navigation menu">
+                <CloseIcon />
               </button>
             </div>
+
+            <nav className="flex flex-col items-center space-y-6">
+              <NavLink
+                to="/"
+                onClick={toggleMenu}
+                className={({ isActive }) =>
+                  `${getNavLinkClass(isActive)} text-2xl p-4 w-48 text-center`
+                }
+              >
+                HOME
+              </NavLink>
+
+              <NavLink
+                to="/product"
+                onClick={toggleMenu}
+                className={({ isActive }) =>
+                  `${getNavLinkClass(isActive)} text-2xl p-4 w-48 text-center`
+                }
+              >
+                PRODUCTS
+              </NavLink>
+            </nav>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
 }
 
-export default LoginButton;
+export default CsHeader;
